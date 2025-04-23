@@ -1,0 +1,45 @@
+/**
+ * Device.X_TINNO_COM_Internet from TR-181 datamodel 2.12
+ *
+ * @version 1.0
+ */
+
+%define {
+	%persistent object Internet {
+        /**
+        * Only modules that are added to this comma separated list can be configured
+        * in the Controller parameters.
+        * The name used should be the name of the so file without the extension.
+        *
+        * @version 1.0
+        */ 
+
+		/**
+		 * Enables or disables the internet check function.
+		 * @version V1.0
+		 */
+		%persistent bool Enable {
+			default "true";
+			userflags %upc;
+		}
+
+		%persistent string Result {
+			on action validate call check_enum ["Connecting", "Connected", "Disconnected"];
+			default "Disconnected";
+		}
+
+		%persistent uint32 Status{
+			userflags %upc;
+		}
+
+		%persistent string Interface{
+			on action validate call check_maximum_length 64;
+			userflags %usersetting;
+		}
+	}
+}
+
+%populate {
+    on event "app:start" call app_start;
+
+}

@@ -1,0 +1,28 @@
+config PACKAGE_internet_check
+    tristate
+    select SAH_AMX_INTERNET_CHECK
+
+if PACKAGE_internet_check
+
+menu "Select internet check build options"
+    depends on PACKAGE_internet_check
+
+config SAH_AMX_INTERNET_CHECK
+    bool "Build a tr181 compatible internet check plugin"
+    default y
+
+config SAH_AMX_INTERNET_CHECK_ORDER
+    int "internet check plugin start up order"
+    default 80
+
+config SAH_AMX_INTERNET_CHECK_RUN_AS_USER
+    string "User will be used for the internet check plugin"
+    default "tr181_app"
+
+config SAH_AMX_INTERNET_CHECK_RUN_AS_GROUP
+    string "Group will be used for the internet check plugin"
+    default "tr181_app"
+
+endmenu
+
+endif

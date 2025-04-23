@@ -1,0 +1,3 @@
+%config {
+    %global "proxy-object.'Device.X_TINNO-COM_Internet.'" = "Internet.";
+}

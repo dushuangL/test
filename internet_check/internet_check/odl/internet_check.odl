@@ -1,0 +1,54 @@
+#include "mod_sahtrace.odl";
+#include "global_amxb_timeouts.odl";
+
+%config {
+    name = "internet";
+    prefix_ = "X_TINNO-COM_";
+    import-dbg = true;
+
+    // SAHTRACE
+    sahtrace = {
+        type = "syslog",
+        level = "${default_log_level}"
+    };
+
+    trace-zones = {
+        "internet" = "${default_trace_zone_level}"
+    };
+
+    // main files
+    vlanbind_definition_file = "${name}_definition.odl";
+
+    // Use ODL persistent storage
+    storage-path = "${rw_data_path}/${name}";
+    odl = {
+        dm-load = true,
+        dm-save = true,
+        dm-save-on-changed = true,
+        dm-save-delay = 1000,
+        dm-defaults = "defaults.d/",
+        directory = "${storage-path}/odl"
+    };
+
+    external-mod-dir = "/usr/lib/amx/modules";
+
+    modules = {
+        internet-directory = "/usr/lib/amx/${name}/modules"
+    };
+	
+    pcm_svc_config = {
+        "Objects" = "Internet"
+    };
+}
+
+import "${name}.so" as "${name}";
+import "mod-dmext.so";
+#include "${name}_caps.odl";
+
+include "${internet_definition_file}";
+
+%define {
+    entry-point "${name}".main;
+}
+
+#include "mod_pcm_svc.odl";
